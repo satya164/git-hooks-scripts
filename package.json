@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/satya164/git-hooks-scripts#readme",
   "scripts": {
-    "postinstall": "node index.js",
+    "install": "node index install",
+    "preuninstall": "node index uninstall",
     "typescript": "tsc --noEmit",
     "lint": "eslint .",
     "release": "release-it"

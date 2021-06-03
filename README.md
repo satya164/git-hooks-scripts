@@ -5,6 +5,12 @@
 
 Run custom scripts as Git hooks.
 
+## Installation
+
+```sh
+npm install --save-dev git-hooks-scripts
+```
+
 ## Usage
 
 Add your scripts under a section called `git-hooks-scripts` in your `package.json` file:

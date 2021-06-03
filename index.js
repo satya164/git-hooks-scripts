@@ -32,21 +32,21 @@ const hooks = [
   'post-index-change',
 ];
 
-function run() {
-  let hooksPath;
+let hooksPath;
 
-  try {
-    hooksPath = child_process
-      .execSync('git config core.hooksPath', {
-        encoding: 'utf8',
-      })
-      .trim();
-  } catch (e) {
-    // Ignore
-  }
+try {
+  hooksPath = child_process
+    .execSync('git config core.hooksPath', {
+      encoding: 'utf8',
+    })
+    .trim();
+} catch (e) {
+  // Ignore
+}
 
-  hooksPath = path.join(process.cwd(), hooksPath || '.git/hooks');
+hooksPath = path.join(process.cwd(), hooksPath || '.git/hooks');
 
+function install() {
   if (!fs.existsSync(hooksPath)) {
     fs.mkdirSync(hooksPath, { recursive: true });
   }
@@ -113,6 +113,31 @@ try {
         // Ignore
       }
     }
+  }
+}
+
+function uninstall() {
+  for (const hook of hooks) {
+    const hookPath = path.join(hooksPath, hook);
+
+    if (fs.existsSync(hookPath)) {
+      fs.rmSync(hookPath);
+    }
+  }
+}
+
+function run() {
+  const [command] = process.argv.slice(2);
+
+  switch (command) {
+    case 'install':
+      install();
+      break;
+    case 'uninstall':
+      uninstall();
+      break;
+    default:
+      throw new Error(`Invalid argument ${command}`);
   }
 }
 
