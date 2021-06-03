@@ -123,6 +123,14 @@ function uninstall() {
     if (fs.existsSync(hookPath)) {
       fs.rmSync(hookPath);
     }
+
+    if (process.platform === 'win32') {
+      const hookPathCmd = `${hookPath}.cmd`;
+
+      if (fs.existsSync(hookPathCmd)) {
+        fs.rmSync(hookPathCmd);
+      }
+    }
   }
 }
 
